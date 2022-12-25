@@ -9,8 +9,8 @@ import About from './components/About'
 import { database } from './firebaseConfig'
 import { collection, addDoc,
   serverTimestamp, onSnapshot,
-  doc, deleteDoc, query, where,
-  orderBy, updateDoc } from 'firebase/firestore'
+  doc, deleteDoc, query,
+  orderBy, updateDoc, getDoc } from 'firebase/firestore'
 
 
 function App() {
@@ -20,13 +20,10 @@ function App() {
   const [tasks, setTasks] = useState([]);
 
   const [hideComplete, setHideComplete] = useState(false)
-  const [completedTasks, setCompletedTasks] = useState([]);
-
 
   const collectionRef = collection(database, 'taskList');
 
   const orderedListRef = query(collectionRef, orderBy('updatedAt'));
-  const completedRef = query(collectionRef, where('completed', "==", true));
 
   useEffect(() => {
     onSnapshot(orderedListRef, (snapshot) => {
@@ -35,18 +32,6 @@ function App() {
                 taskList.push({...doc.data(), id: doc.id})
               })
               setTasks(taskList)
-    })
-  }, [])
-
-  console.log('ping')
-
-  useEffect(() => {
-    onSnapshot(completedRef, (snapshot) => {
-      let taskList = [];
-      snapshot.docs.forEach((doc) => {
-        taskList.push({...doc.data(), id: doc.id})
-      })
-      setCompletedTasks(taskList)
     })
   }, [])
 
@@ -68,13 +53,19 @@ function App() {
 
   // Toggle Reminder (will become Task done)
   const toggleReminder = (id) => {
-    setTasks(tasks.map(task => task.id === id ? {...task, completed: !task.completed} : task))
+    // setTasks(tasks.map(task => task.id === id ? {...task, completed: !task.completed} : task))
+    const docRef = doc(database, 'taskList', id);
+    getDoc(docRef)
+      .then((doc) => {
+        const completed = doc.data().completed;
+        updateDoc(docRef,{completed: !completed})
+      })
+
   }
 
   //Show/Hide the completed Tasks
   const showCompleted = () => {
     setHideComplete(!hideComplete);
-    console.log(hideComplete)
   }
 
   return (
@@ -84,7 +75,7 @@ function App() {
               <div className="container">
                 <Header onShow={() => setShowAddTask(!showAddTask)} showAdd={showAddTask}/>
                 {showAddTask && <AddTask onAdd={addTask} />}
-                {tasks.length > 0 ? <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder} hideCompleted={showCompleted} /> : 'No Tasks to Show'}
+                {tasks.length > 0 ? <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder} hideCompleted={showCompleted} showCompleted={hideComplete} /> : 'No Tasks to Show'}
                 <Footer />
               </div>
             } />

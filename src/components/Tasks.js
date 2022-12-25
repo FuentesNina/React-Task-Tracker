@@ -1,12 +1,12 @@
 
 import Task from './Task'
 
-const Tasks = ({tasks, onDelete, onToggle, hideCompleted}) => {
+const Tasks = ({tasks, onDelete, onToggle, hideCompleted, showCompleted}) => {
     return (
     <>
-        <button onClick={hideCompleted}>Show Completed Tasks</button>
+        <button onClick={hideCompleted} >{showCompleted === true ? "Show" : "Hide"} Completed Tasks</button>
         {tasks.map(task => (
-            <Task key={task.id} task={task} onDelete={onDelete} onToggle={onToggle} />
+            <Task key={task.id} task={task} onDelete={onDelete} onToggle={onToggle} showCompleted={showCompleted}/>
         ))}
     </>
   )
