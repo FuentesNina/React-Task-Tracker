@@ -41,6 +41,10 @@ body {
   font-family: inherit;
 }
 
+.true {
+  background: grey;
+}
+
 .btn:focus {
   outline: none;
 }
