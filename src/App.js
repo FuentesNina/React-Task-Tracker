@@ -14,8 +14,7 @@ import { collection, addDoc,
 
 
 function App() {
-
-  const [showAddTask, setShowAddTask] = useState(false)
+  const [showAddTask, setShowAddTask] = useState(false);
 
   const [tasks, setTasks] = useState([]);
 
@@ -34,6 +33,8 @@ function App() {
               setTasks(taskList)
     })
   }, [])
+
+
 
 
   //Add Task
@@ -71,7 +72,7 @@ function App() {
   return (
     <Router>
           <Routes>
-            <Route path="*" element={
+            <Route path="/react-task-tracker/" element={
               <div className="container">
                 <Header onShow={() => setShowAddTask(!showAddTask)} showAdd={showAddTask}/>
                 {showAddTask && <AddTask onAdd={addTask} />}
@@ -79,7 +80,7 @@ function App() {
                 <Footer />
               </div>
             } />
-            <Route path="/about" element={
+            <Route path="/react-task-tracker/about" element={
               <div className="container">
                 <Header onShow={() => setShowAddTask(!showAddTask)} showAdd={showAddTask}/>
                 <About />

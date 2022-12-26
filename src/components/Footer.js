@@ -6,7 +6,7 @@ const Footer = () => {
     return (
     <footer>
       <p>Copyright &copy; {year}</p>
-      <Link to='/about'>About</Link>
+      <Link to='/react-task-tracker/about'>About</Link>
 
     </footer>
   )
