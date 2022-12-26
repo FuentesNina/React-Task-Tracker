@@ -54,15 +54,18 @@ body {
 }
 
 .true, .false {
+  font-size: 12px;
   margin-bottom: 40px;
   border-color: black;
   background-color: white;
   color: black;
   border-style: solid;
+  border-width: 1px;
 }
 
 .true {
   background: grey;
+  color: white
 }
 
 .btn:focus {

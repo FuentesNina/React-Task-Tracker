@@ -18,7 +18,7 @@ function App() {
 
   const [tasks, setTasks] = useState([]);
 
-  const [hideComplete, setHideComplete] = useState(false)
+  const [hideComplete, setHideComplete] = useState(true)
 
   const collectionRef = collection(database, 'taskList');
 
